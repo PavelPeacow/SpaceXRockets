@@ -74,6 +74,16 @@ class RocketViewController: UIViewController {
         return section
     }()
     
+    private lazy var flightHistoryButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Flight History", for: .normal)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(didTapFlightHistoryButton), for: .touchUpInside)
+        button.backgroundColor = .systemGray4
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -88,6 +98,7 @@ class RocketViewController: UIViewController {
         container.addSubview(infoSectionMain)
         container.addSubview(infoSectionFirstStage)
         container.addSubview(infoSectionSecondStage)
+        container.addSubview(flightHistoryButton)
         
         setDelegates()
         setConstraints()
@@ -96,6 +107,13 @@ class RocketViewController: UIViewController {
     private func setDelegates() {
         rocketHorizontalCollection.delegate = self
         rocketHorizontalCollection.dataSource = self
+    }
+    
+    @objc private func didTapFlightHistoryButton() {
+        let vc = RocketFlightHistoryViewController()
+        vc.configure(with: rocket.id)
+        
+        present(vc, animated: true)
     }
     
     func configure(with model: RocketModel) {
@@ -113,7 +131,7 @@ class RocketViewController: UIViewController {
         getRocketImage(by: model.flickr_images.randomElement() ?? "")
     }
     
-    func configureMainInfoSection(with model: RocketModel) {
+    private func configureMainInfoSection(with model: RocketModel) {
         let rocketMainInformation = RocketMainInformationViewModel(title: nil,
                                                                    firstSubtitle: "First Flight",
                                                                    firstSubtitleValue: model.first_flight,
@@ -124,7 +142,7 @@ class RocketViewController: UIViewController {
         infoSectionMain.configure(with: rocketMainInformation)
     }
     
-    func configureFirstStageSection(with model: RocketModel) {
+    private func configureFirstStageSection(with model: RocketModel) {
         let rocketMainInformation = RocketMainInformationViewModel(title: "First Stage",
                                                                    firstSubtitle: "Number of Engines",
                                                                    firstSubtitleValue: String(model.first_stage.engines),
@@ -135,7 +153,7 @@ class RocketViewController: UIViewController {
         infoSectionFirstStage.configure(with: rocketMainInformation)
     }
     
-    func configureSecondStageSection(with model: RocketModel) {
+    private func configureSecondStageSection(with model: RocketModel) {
         let rocketMainInformation = RocketMainInformationViewModel(title: "Second Stage",
                                                                    firstSubtitle: "Number of Engines",
                                                                    firstSubtitleValue: String(model.second_stage.engines),
@@ -156,7 +174,7 @@ extension RocketViewController {
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            rocketImage.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            rocketImage.topAnchor.constraint(equalTo: scrollView.topAnchor),
             rocketImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             rocketImage.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             rocketImage.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/3.5),
@@ -185,7 +203,12 @@ extension RocketViewController {
             infoSectionSecondStage.topAnchor.constraint(equalTo: infoSectionFirstStage.bottomAnchor, constant: 25),
             infoSectionSecondStage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 25),
             infoSectionSecondStage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -25),
-            infoSectionSecondStage.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -50),
+
+            flightHistoryButton.topAnchor.constraint(equalTo: infoSectionSecondStage.bottomAnchor, constant: 30),
+            flightHistoryButton.heightAnchor.constraint(equalToConstant: 45),
+            flightHistoryButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            flightHistoryButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            flightHistoryButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20),
         ])
     }
 }

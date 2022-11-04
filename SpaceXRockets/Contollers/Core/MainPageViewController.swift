@@ -80,7 +80,6 @@ extension MainPageViewController {
                     }
                     
                     self?.setViewControllers([self!.viewPages[0]], direction: .forward, animated: true)
-                    print(self?.rockets as Any)
                 }
             case .failure(let failure):
                 print(failure)
