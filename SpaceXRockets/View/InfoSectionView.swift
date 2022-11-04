@@ -11,8 +11,6 @@ class InfoSectionView: UIView {
     
     private let firstSubtitle: UILabel = {
         let label = UILabel()
-        label.text = "DADADA"
-        label.adjustsFontSizeToFitWidth = true
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -20,7 +18,6 @@ class InfoSectionView: UIView {
     
     private let secondSubtitle: UILabel = {
         let label = UILabel()
-        label.text = "DADADA"
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -28,7 +25,6 @@ class InfoSectionView: UIView {
     
     private let thridSubtitle: UILabel = {
         let label = UILabel()
-        label.text = "DADADA"
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -36,7 +32,6 @@ class InfoSectionView: UIView {
     
     private let firstSubtitleValue: UILabel = {
         let label = UILabel()
-        label.text = "DADADA"
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -44,7 +39,6 @@ class InfoSectionView: UIView {
     
     private let secondSubtitleValue: UILabel = {
         let label = UILabel()
-        label.text = "DADADA"
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -52,7 +46,6 @@ class InfoSectionView: UIView {
     
     private let thridSubtitleValue: UILabel = {
         let label = UILabel()
-        label.text = "DADADA"
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -60,7 +53,6 @@ class InfoSectionView: UIView {
     
     private let sectionTitle: UILabel = {
         let label = UILabel()
-        label.text = "FIRST SLIGHT"
         label.font = .boldSystemFont(ofSize: 25)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -68,18 +60,16 @@ class InfoSectionView: UIView {
     
     let stackViewMainContainerVertical: UIStackView = {
         let view = UIStackView()
-        view.backgroundColor = .red
         view.axis = .vertical
         view.distribution  = .equalCentering
         view.alignment = .fill
-        view.spacing   = 10
+        view.spacing   = 16
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
         
     let stackViewMainContainerHorizontal: UIStackView = {
         let view = UIStackView()
-        view.backgroundColor = .blue
         view.alignment = .center
         view.distribution  = .fillProportionally
         view.axis = .horizontal
@@ -90,22 +80,20 @@ class InfoSectionView: UIView {
     
     let stackViewFirstColumnHorizontal: UIStackView = {
         let view = UIStackView()
-        view.backgroundColor = .purple
         view.alignment = .leading
         view.distribution  = .fillEqually
         view.axis = .vertical
-        view.spacing   = 10
+        view.spacing   = 16
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     let stackViewSecondColumnHorizontal: UIStackView = {
         let view = UIStackView()
-        view.backgroundColor = .orange
         view.alignment = .trailing
         view.distribution  = .fillEqually
         view.axis = .vertical
-        view.spacing   = 10
+        view.spacing   = 16
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -126,8 +114,6 @@ class InfoSectionView: UIView {
         stackViewSecondColumnHorizontal.addArrangedSubview(firstSubtitleValue)
         stackViewSecondColumnHorizontal.addArrangedSubview(secondSubtitleValue)
         stackViewSecondColumnHorizontal.addArrangedSubview(thridSubtitleValue)
-        
-        backgroundColor = .green
         
         setConstraints()
     }
@@ -154,8 +140,6 @@ class InfoSectionView: UIView {
     
     func setConstraints() {
         NSLayoutConstraint.activate([
-//            stackViewMainContainerVertical.centerXAnchor.constraint(equalTo: centerXAnchor),
-//            stackViewMainContainerVertical.centerYAnchor.constraint(equalTo: centerYAnchor),
             stackViewMainContainerVertical.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1),
             stackViewMainContainerVertical.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 1),
         ])

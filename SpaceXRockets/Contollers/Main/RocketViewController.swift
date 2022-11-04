@@ -14,7 +14,7 @@ class RocketViewController: UIViewController {
     
     private let scrollView: UIScrollView = {
         let scroll = UIScrollView()
-        scroll.backgroundColor = .orange
+        scroll.showsVerticalScrollIndicator = false
         scroll.translatesAutoresizingMaskIntoConstraints = false
         return scroll
     }()
@@ -45,15 +45,25 @@ class RocketViewController: UIViewController {
     private let rocketHorizontalCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 100, height: 80)
+        layout.itemSize = CGSize(width: 96, height: 96)
+        layout.minimumLineSpacing = 12
         
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collection.backgroundColor = .red
         collection.showsHorizontalScrollIndicator = false
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.register(RocketInformationCollectionViewCell.self, forCellWithReuseIdentifier: RocketInformationCollectionViewCell.identifier)
         
         return collection
+    }()
+    
+    private lazy var mainStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [infoSectionMain, infoSectionFirstStage, infoSectionSecondStage, flightHistoryButton])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 40
+        return stackView
     }()
     
     private let infoSectionMain: InfoSectionView = {
@@ -95,15 +105,12 @@ class RocketViewController: UIViewController {
         container.addSubview(rocketTitle)
         container.addSubview(rocketHorizontalCollection)
         
-        container.addSubview(infoSectionMain)
-        container.addSubview(infoSectionFirstStage)
-        container.addSubview(infoSectionSecondStage)
-        container.addSubview(flightHistoryButton)
+        container.addSubview(mainStackView)
         
         setDelegates()
         setConstraints()
     }
-        
+    
     private func setDelegates() {
         rocketHorizontalCollection.delegate = self
         rocketHorizontalCollection.dataSource = self
@@ -185,30 +192,17 @@ extension RocketViewController {
             container.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             rocketTitle.topAnchor.constraint(equalTo: container.topAnchor, constant: 25),
-            rocketTitle.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 25),
+            rocketTitle.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 32),
             
-            rocketHorizontalCollection.topAnchor.constraint(equalTo: rocketTitle.bottomAnchor, constant: 15),
-            rocketHorizontalCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
+            rocketHorizontalCollection.topAnchor.constraint(equalTo: rocketTitle.bottomAnchor, constant: 32),
+            rocketHorizontalCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
             rocketHorizontalCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            rocketHorizontalCollection.heightAnchor.constraint(equalToConstant: 80),
+            rocketHorizontalCollection.heightAnchor.constraint(equalToConstant: 96),
             
-            infoSectionMain.topAnchor.constraint(equalTo: rocketHorizontalCollection.bottomAnchor, constant: 25),
-            infoSectionMain.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 25),
-            infoSectionMain.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -25),
-            
-            infoSectionFirstStage.topAnchor.constraint(equalTo: infoSectionMain.bottomAnchor, constant: 25),
-            infoSectionFirstStage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 25),
-            infoSectionFirstStage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -25),
-            
-            infoSectionSecondStage.topAnchor.constraint(equalTo: infoSectionFirstStage.bottomAnchor, constant: 25),
-            infoSectionSecondStage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 25),
-            infoSectionSecondStage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -25),
-
-            flightHistoryButton.topAnchor.constraint(equalTo: infoSectionSecondStage.bottomAnchor, constant: 30),
-            flightHistoryButton.heightAnchor.constraint(equalToConstant: 45),
-            flightHistoryButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            flightHistoryButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
-            flightHistoryButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20),
+            mainStackView.topAnchor.constraint(equalTo: rocketHorizontalCollection.bottomAnchor, constant: 40),
+            mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32),
+            mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -32),
+            mainStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20),
         ])
     }
 }

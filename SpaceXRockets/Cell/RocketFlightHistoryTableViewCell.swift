@@ -50,7 +50,11 @@ class RocketFlightHistoryTableViewCell: UICollectionViewCell {
     
     func configure(with model: RocketFlightHistoryViewModel) {
         flightTitle.text = model.name
-        flightDate.text = model.date_utc
+        
+        if let index = model.date_utc.range(of: "T")?.lowerBound {
+            flightDate.text =  String(model.date_utc[..<index])
+        }
+       
         flightIconStatus.image = UIImage(named: model.success ? "success" : "failure")
     }
     

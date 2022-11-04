@@ -13,12 +13,14 @@ class RocketInformationCollectionViewCell: UICollectionViewCell {
     
     private let infoValue: UILabel = {
         let label = UILabel()
+        label.font = .systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let infoTitle: UILabel = {
         let label = UILabel()
+        label.font = .systemFont(ofSize: 14)
         label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -51,10 +53,10 @@ extension RocketInformationCollectionViewCell {
     
     func setConstraints() {
         NSLayoutConstraint.activate([
-            infoValue.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            infoValue.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 28),
             infoValue.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             
-            infoTitle.topAnchor.constraint(equalTo: infoValue.bottomAnchor, constant: 5),
+            infoTitle.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24),
             infoTitle.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
     }

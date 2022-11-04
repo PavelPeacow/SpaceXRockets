@@ -7,10 +7,6 @@
 
 import Foundation
 
-struct Array1 {
-    var array: RocketInfo
-}
-
 struct RocketInfo {
     var height: Height
     var diameter: Diameter
