@@ -16,6 +16,7 @@ struct RocketModel: Codable {
     let height: Height
     let diameter: Diameter
     let mass: Mass
+    let payload_weights: [PayloadWeights]
     
     let first_flight: String
     let country: String
@@ -36,6 +37,11 @@ struct Diameter: Codable {
 }
 
 struct Mass: Codable {
+    let kg: Double
+    let lb: Double
+}
+
+struct PayloadWeights: Codable {
     let kg: Double
     let lb: Double
 }

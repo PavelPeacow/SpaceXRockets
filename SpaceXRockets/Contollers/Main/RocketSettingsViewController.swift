@@ -1,5 +1,5 @@
 //
-//  StackviewTest.swift
+//  RocketSettingsViewController.swift
 //  SpaceXRockets
 //
 //  Created by Павел Кай on 04.11.2022.
@@ -7,55 +7,62 @@
 
 import UIKit
 
-class InfoSectionView: UIView {
+class RocketSettingsViewController: UIViewController {
     
-    private let firstSubtitle: UILabel = {
+    private let heightLabel: UILabel = {
         let label = UILabel()
+        label.text = "Height"
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let secondSubtitle: UILabel = {
+    private let diameterLabel: UILabel = {
         let label = UILabel()
+        label.text = "Diameter"
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let thridSubtitle: UILabel = {
+    private let massLabel: UILabel = {
         let label = UILabel()
+        label.text = "Mass"
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let firstSubtitleValue: UILabel = {
+    private let payload: UILabel = {
         let label = UILabel()
+        label.text = "Payload"
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let secondSubtitleValue: UILabel = {
-        let label = UILabel()
-        label.adjustsFontSizeToFitWidth = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private let heightSwitch: UISwitch = {
+        let switchUI = UISwitch()
+        switchUI.translatesAutoresizingMaskIntoConstraints = false
+        return switchUI
     }()
     
-    private let thridSubtitleValue: UILabel = {
-        let label = UILabel()
-        label.adjustsFontSizeToFitWidth = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private let diameterSwitch: UISwitch = {
+        let switchUI = UISwitch()
+        switchUI.translatesAutoresizingMaskIntoConstraints = false
+        return switchUI
     }()
     
-    private let sectionTitle: UILabel = {
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 25)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private let massSwitch: UISwitch = {
+        let switchUI = UISwitch()
+        switchUI.translatesAutoresizingMaskIntoConstraints = false
+        return switchUI
+    }()
+    
+    private let payloadSwitch: UISwitch = {
+        let switchUI = UISwitch()
+        switchUI.translatesAutoresizingMaskIntoConstraints = false
+        return switchUI
     }()
     
     let stackViewMainContainerVertical: UIStackView = {
@@ -71,7 +78,7 @@ class InfoSectionView: UIView {
     let stackViewMainContainerHorizontal: UIStackView = {
         let view = UIStackView()
         view.alignment = .center
-        view.distribution  = .equalCentering
+        view.distribution  = .fillProportionally
         view.axis = .horizontal
         view.spacing   = 0
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -83,7 +90,7 @@ class InfoSectionView: UIView {
         view.alignment = .leading
         view.distribution  = .fillEqually
         view.axis = .vertical
-        view.spacing   = 16
+        view.spacing   = 32
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -93,55 +100,45 @@ class InfoSectionView: UIView {
         view.alignment = .trailing
         view.distribution  = .fillEqually
         view.axis = .vertical
-        view.spacing   = 16
+        view.spacing   = 24
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        view.backgroundColor = .systemBackground
         
-        addSubview(stackViewMainContainerVertical)
+        view.addSubview(stackViewMainContainerVertical)
         stackViewMainContainerVertical.addArrangedSubview(stackViewMainContainerHorizontal)
         
         stackViewMainContainerHorizontal.addArrangedSubview(stackViewFirstColumnHorizontal)
         stackViewMainContainerHorizontal.addArrangedSubview(stackViewSecondColumnHorizontal)
 
-        stackViewFirstColumnHorizontal.addArrangedSubview(firstSubtitle)
-        stackViewFirstColumnHorizontal.addArrangedSubview(secondSubtitle)
-        stackViewFirstColumnHorizontal.addArrangedSubview(thridSubtitle)
+        stackViewFirstColumnHorizontal.addArrangedSubview(heightLabel)
+        stackViewFirstColumnHorizontal.addArrangedSubview(diameterLabel)
+        stackViewFirstColumnHorizontal.addArrangedSubview(massLabel)
+        stackViewFirstColumnHorizontal.addArrangedSubview(payload)
         
-        stackViewSecondColumnHorizontal.addArrangedSubview(firstSubtitleValue)
-        stackViewSecondColumnHorizontal.addArrangedSubview(secondSubtitleValue)
-        stackViewSecondColumnHorizontal.addArrangedSubview(thridSubtitleValue)
+        stackViewSecondColumnHorizontal.addArrangedSubview(heightSwitch)
+        stackViewSecondColumnHorizontal.addArrangedSubview(diameterSwitch)
+        stackViewSecondColumnHorizontal.addArrangedSubview(massSwitch)
+        stackViewSecondColumnHorizontal.addArrangedSubview(payloadSwitch)
         
         setConstraints()
+        
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func configure(with model: RocketMainInformationViewModel) {
-        
-        if let title = model.title {
-            sectionTitle.text = title
-            stackViewMainContainerVertical.insertArrangedSubview(sectionTitle, at: 0)
-        }
-        
-        firstSubtitle.text = model.firstSubtitle
-        secondSubtitle.text = model.secondSubtitle
-        thridSubtitle.text = model.thridSubtitle
-        
-        firstSubtitleValue.text = model.firstSubtitleValue
-        secondSubtitleValue.text = model.secondSubtitleValue
-        thridSubtitleValue.text = model.thridSubtitleValue
-    }
+}
+
+extension RocketSettingsViewController {
     
     func setConstraints() {
         NSLayoutConstraint.activate([
-            stackViewMainContainerVertical.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1),
-            stackViewMainContainerVertical.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 1),
+            stackViewMainContainerVertical.topAnchor.constraint(equalTo: view.topAnchor, constant: 56),
+            stackViewMainContainerVertical.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32),
+            stackViewMainContainerVertical.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -32),
         ])
     }
 }

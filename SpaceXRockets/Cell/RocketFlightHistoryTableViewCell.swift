@@ -14,6 +14,7 @@ class RocketFlightHistoryTableViewCell: UICollectionViewCell {
     private let flightTitle: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 22)
+        label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

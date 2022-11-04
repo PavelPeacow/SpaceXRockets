@@ -15,6 +15,7 @@
 		B57BB21529152B1C00DF488C /* RocketFlightHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57BB21429152B1C00DF488C /* RocketFlightHistoryTableViewCell.swift */; };
 		B57BB21729152E7A00DF488C /* RocketFlightModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57BB21629152E7A00DF488C /* RocketFlightModel.swift */; };
 		B57BB21929154F7200DF488C /* RocketFlightHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57BB21829154F7200DF488C /* RocketFlightHistoryViewModel.swift */; };
+		B57BB21B291569C600DF488C /* RocketSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57BB21A291569C600DF488C /* RocketSettingsViewController.swift */; };
 		B597181A29127E53006B85AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B597181929127E53006B85AE /* AppDelegate.swift */; };
 		B597181C29127E53006B85AE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B597181B29127E53006B85AE /* SceneDelegate.swift */; };
 		B597181E29127E53006B85AE /* RocketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B597181D29127E53006B85AE /* RocketViewController.swift */; };
@@ -35,6 +36,7 @@
 		B57BB21429152B1C00DF488C /* RocketFlightHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketFlightHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		B57BB21629152E7A00DF488C /* RocketFlightModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketFlightModel.swift; sourceTree = "<group>"; };
 		B57BB21829154F7200DF488C /* RocketFlightHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketFlightHistoryViewModel.swift; sourceTree = "<group>"; };
+		B57BB21A291569C600DF488C /* RocketSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketSettingsViewController.swift; sourceTree = "<group>"; };
 		B597181629127E53006B85AE /* SpaceXRockets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceXRockets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B597181929127E53006B85AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B597181B29127E53006B85AE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 		B57BB210291527AD00DF488C /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				B597181D29127E53006B85AE /* RocketViewController.swift */,
 				B597183A2912A245006B85AE /* MainPageViewController.swift */,
 			);
 			path = Core;
@@ -88,8 +91,8 @@
 		B57BB211291527B200DF488C /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				B597181D29127E53006B85AE /* RocketViewController.swift */,
 				B57BB21229152AC200DF488C /* RocketFlightHistoryViewController.swift */,
+				B57BB21A291569C600DF488C /* RocketSettingsViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 				B597183629128673006B85AE /* RocketModel.swift in Sources */,
 				B57BB21729152E7A00DF488C /* RocketFlightModel.swift in Sources */,
 				B597181E29127E53006B85AE /* RocketViewController.swift in Sources */,
+				B57BB21B291569C600DF488C /* RocketSettingsViewController.swift in Sources */,
 				B57BB21929154F7200DF488C /* RocketFlightHistoryViewModel.swift in Sources */,
 				B57BB21529152B1C00DF488C /* RocketFlightHistoryTableViewCell.swift in Sources */,
 				B597181A29127E53006B85AE /* AppDelegate.swift in Sources */,

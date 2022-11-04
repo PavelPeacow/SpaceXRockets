@@ -42,6 +42,15 @@ class RocketViewController: UIViewController {
         return title
     }()
     
+    private lazy var settingsButton: UIButton = {
+        let button = UIButton()
+        let image = UIImage.SymbolConfiguration(pointSize: 32, weight: .bold, scale: .large)
+        button.setImage(UIImage(systemName: "gearshape.fill", withConfiguration: image)?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(didTapSettingsButton), for: .touchUpInside)
+        return button
+    }()
+    
     private let rocketHorizontalCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -103,6 +112,7 @@ class RocketViewController: UIViewController {
         
         scrollView.addSubview(container)
         container.addSubview(rocketTitle)
+        container.addSubview(settingsButton)
         container.addSubview(rocketHorizontalCollection)
         
         container.addSubview(mainStackView)
@@ -120,6 +130,12 @@ class RocketViewController: UIViewController {
         let vc = RocketFlightHistoryViewController()
         vc.configure(with: rocket.id)
         
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func didTapSettingsButton() {
+        let vc = RocketSettingsViewController()
+        
         present(vc, animated: true)
     }
     
@@ -129,6 +145,7 @@ class RocketViewController: UIViewController {
         rocketInfo.append(model.mass)
         rocketInfo.append(model.diameter)
         rocketInfo.append(model.height)
+        rocketInfo.append(model.payload_weights.first ?? "tba")
         
         configureMainInfoSection(with: model)
         configureFirstStageSection(with: model)
@@ -191,8 +208,13 @@ extension RocketViewController {
             container.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             container.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            rocketTitle.topAnchor.constraint(equalTo: container.topAnchor, constant: 25),
+            rocketTitle.topAnchor.constraint(equalTo: container.topAnchor, constant: 48),
             rocketTitle.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 32),
+            
+            settingsButton.topAnchor.constraint(equalTo: container.topAnchor, constant: 48),
+            settingsButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -32),
+            settingsButton.heightAnchor.constraint(equalToConstant: 32),
+            settingsButton.widthAnchor.constraint(equalToConstant: 32),
             
             rocketHorizontalCollection.topAnchor.constraint(equalTo: rocketTitle.bottomAnchor, constant: 32),
             rocketHorizontalCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
@@ -219,6 +241,7 @@ extension RocketViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let value = rocketInfo[indexPath.item]
         let rocketViewModel: RocketHorizontalViewModel
         
+        
         if let item = value as? Height {
             rocketViewModel = RocketHorizontalViewModel(value: String(item.meters), subtitle: "Height")
             cell.configure(with: rocketViewModel)
@@ -227,6 +250,9 @@ extension RocketViewController: UICollectionViewDelegate, UICollectionViewDataSo
             cell.configure(with: rocketViewModel)
         } else if let item = value as? Mass {
             rocketViewModel = RocketHorizontalViewModel(value: String(item.kg), subtitle: "Mass")
+            cell.configure(with: rocketViewModel)
+        } else if let item = value as? PayloadWeights {
+            rocketViewModel = RocketHorizontalViewModel(value: String(item.kg), subtitle: "Playload")
             cell.configure(with: rocketViewModel)
         }
         
