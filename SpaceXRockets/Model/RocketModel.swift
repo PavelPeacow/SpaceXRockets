@@ -11,9 +11,9 @@ struct RocketModel: Codable {
     let name: String
     let flickr_images: [String]
     
-    let height: [String : Double]
-    let diameter: [String : Double]
-    let mass: [String : Double]
+    let height: Height
+    let diameter: Diameter
+    let mass: Mass
     
     let first_flight: String
     let country: String
@@ -21,6 +21,21 @@ struct RocketModel: Codable {
     
     let first_stage: FirstStage
     let second_stage: SecondStage
+}
+
+struct Height: Codable {
+    let meters: Double
+    let feet: Double
+}
+
+struct Diameter: Codable {
+    let meters: Double
+    let feet: Double
+}
+
+struct Mass: Codable {
+    let kg: Double
+    let lb: Double
 }
 
 struct FirstStage: Codable {

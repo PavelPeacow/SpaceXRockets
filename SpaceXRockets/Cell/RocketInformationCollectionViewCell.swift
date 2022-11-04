@@ -40,9 +40,9 @@ class RocketInformationCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with model: Double) {
-        infoValue.text = String(model)
-        infoTitle.text = String(model)
+    func configure(with model: RocketHorizontalViewModel) {
+        infoValue.text = model.value
+        infoTitle.text = model.subtitle
     }
     
 }
