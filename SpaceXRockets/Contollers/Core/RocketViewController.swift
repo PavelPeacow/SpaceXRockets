@@ -194,8 +194,21 @@ extension RocketViewController: MeasureChangingProtocol {
     func didChangeMeasure() {
         rocketHorizontalCollection.reloadData()
     }
+}
+
+extension RocketViewController {
     
-    
+    func getRocketImage(by url: String) {
+        guard let url = URL(string: url) else { return }
+        
+        DispatchQueue.global().async { [weak self] in
+            guard let data = try? Data(contentsOf: url) else { return }
+            DispatchQueue.main.async {
+                self?.rocketImage.image = UIImage(data: data)
+            }
+        }
+        
+    }
 }
 
 extension RocketViewController {
@@ -280,20 +293,5 @@ extension RocketViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
         
         return cell
-    }
-}
-
-extension RocketViewController {
-    
-    func getRocketImage(by url: String) {
-        guard let url = URL(string: url) else { return }
-        
-        DispatchQueue.global().async { [weak self] in
-            guard let data = try? Data(contentsOf: url) else { return }
-            DispatchQueue.main.async {
-                self?.rocketImage.image = UIImage(data: data)
-            }
-        }
-        
     }
 }

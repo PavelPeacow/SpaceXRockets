@@ -9,7 +9,6 @@ import UIKit
 
 class MainPageViewController: UIPageViewController {
     
-    private var rockets = [RocketModel]()
     private var viewPages = [RocketViewController]()
     
     override func viewDidLoad() {
@@ -71,15 +70,14 @@ extension MainPageViewController {
             switch result {
             case .success(let success):
                 DispatchQueue.main.async {
-                    self?.rockets = success
-                    
-                    for rocket in self!.rockets {
+
+                    for rocket in success {
                         let page = RocketViewController()
                         page.configure(with: rocket)
                         self?.viewPages.append(page)
                     }
                     
-                    self?.setViewControllers([self!.viewPages[0]], direction: .forward, animated: true)
+                    self?.setViewControllers([self?.viewPages[0] ?? UIViewController()], direction: .forward, animated: true)
                 }
             case .failure(let failure):
                 print(failure)
