@@ -7,11 +7,25 @@
 
 import UIKit
 
+protocol MeasureChangingProtocol {
+    func didChangeMeasure()
+}
+
 class RocketSettingsViewController: UIViewController {
+    
+    var delegate: MeasureChangingProtocol?
+    
+    private let currentMeasureLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Current Measure"
+        label.font = .boldSystemFont(ofSize: 25)
+        label.adjustsFontSizeToFitWidth = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     private let heightLabel: UILabel = {
         let label = UILabel()
-        label.text = "Height"
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -19,7 +33,6 @@ class RocketSettingsViewController: UIViewController {
     
     private let diameterLabel: UILabel = {
         let label = UILabel()
-        label.text = "Diameter"
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -27,40 +40,42 @@ class RocketSettingsViewController: UIViewController {
     
     private let massLabel: UILabel = {
         let label = UILabel()
-        label.text = "Mass"
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let payload: UILabel = {
+    private let payloadLabel: UILabel = {
         let label = UILabel()
-        label.text = "Payload"
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let heightSwitch: UISwitch = {
+    private lazy var heightSwitch: UISwitch = {
         let switchUI = UISwitch()
+        switchUI.addTarget(self, action: #selector(didTurnHeightSwitch), for: .valueChanged)
         switchUI.translatesAutoresizingMaskIntoConstraints = false
         return switchUI
     }()
     
-    private let diameterSwitch: UISwitch = {
+    private lazy var diameterSwitch: UISwitch = {
         let switchUI = UISwitch()
+        switchUI.addTarget(self, action: #selector(didTurnDiameterSwitch), for: .valueChanged)
         switchUI.translatesAutoresizingMaskIntoConstraints = false
         return switchUI
     }()
     
-    private let massSwitch: UISwitch = {
+    private lazy var massSwitch: UISwitch = {
         let switchUI = UISwitch()
+        switchUI.addTarget(self, action: #selector(didTurnMassSwitch), for: .valueChanged)
         switchUI.translatesAutoresizingMaskIntoConstraints = false
         return switchUI
     }()
     
-    private let payloadSwitch: UISwitch = {
+    private lazy var payloadSwitch: UISwitch = {
         let switchUI = UISwitch()
+        switchUI.addTarget(self, action: #selector(didTurnPayloadsWeightsSwitch), for: .valueChanged)
         switchUI.translatesAutoresizingMaskIntoConstraints = false
         return switchUI
     }()
@@ -78,7 +93,7 @@ class RocketSettingsViewController: UIViewController {
     let stackViewMainContainerHorizontal: UIStackView = {
         let view = UIStackView()
         view.alignment = .center
-        view.distribution  = .fillProportionally
+        view.distribution  = .equalCentering
         view.axis = .horizontal
         view.spacing   = 0
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -111,15 +126,19 @@ class RocketSettingsViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         view.addSubview(stackViewMainContainerVertical)
+        
+        stackViewMainContainerVertical.addArrangedSubview(currentMeasureLabel)
         stackViewMainContainerVertical.addArrangedSubview(stackViewMainContainerHorizontal)
+        
         
         stackViewMainContainerHorizontal.addArrangedSubview(stackViewFirstColumnHorizontal)
         stackViewMainContainerHorizontal.addArrangedSubview(stackViewSecondColumnHorizontal)
 
+        
         stackViewFirstColumnHorizontal.addArrangedSubview(heightLabel)
         stackViewFirstColumnHorizontal.addArrangedSubview(diameterLabel)
         stackViewFirstColumnHorizontal.addArrangedSubview(massLabel)
-        stackViewFirstColumnHorizontal.addArrangedSubview(payload)
+        stackViewFirstColumnHorizontal.addArrangedSubview(payloadLabel)
         
         stackViewSecondColumnHorizontal.addArrangedSubview(heightSwitch)
         stackViewSecondColumnHorizontal.addArrangedSubview(diameterSwitch)
@@ -127,7 +146,52 @@ class RocketSettingsViewController: UIViewController {
         stackViewSecondColumnHorizontal.addArrangedSubview(payloadSwitch)
         
         setConstraints()
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        checkAndTurnSwitch()
+    }
+    
+    private func didTurnSwitch(switchUI: UISwitch, label: UILabel, textOn: String, textOff: String, forKey: MeasureSaveType) {
+            if MeasureSave.shared.checkMeasure(forKey: forKey) {
+                switchUI.isOn = true
+                label.text = textOn
+            } else {
+                switchUI.isOn = false
+                label.text = textOff
+            }
+    }
+    
+    private func checkAndTurnSwitch() {
+        didTurnSwitch(switchUI: heightSwitch, label: heightLabel, textOn: "Height, feet", textOff: "Height, meters", forKey: .isHeightChangedToFeet)
+        didTurnSwitch(switchUI: diameterSwitch, label: diameterLabel, textOn: "Diameter, feet", textOff: "Diameter, meters", forKey: .isDiameterChangedToFeet)
+        didTurnSwitch(switchUI: massSwitch, label: massLabel, textOn: "Mass, lb", textOff: "Mass, kg", forKey: .isMassChangedToLB)
+        didTurnSwitch(switchUI: payloadSwitch, label: payloadLabel, textOn: "Payload, lb", textOff: "Payload, kg", forKey: .isPayloadWeightsChangedToLB)
+    }
+    
+    @objc private func didTurnHeightSwitch() {
+        MeasureSave.shared.changeHeightMeasure()
+        didTurnSwitch(switchUI: heightSwitch, label: heightLabel, textOn: "Height, feet", textOff: "Height, meters", forKey: .isHeightChangedToFeet)
+        delegate?.didChangeMeasure()
+    }
+    
+    @objc private func didTurnDiameterSwitch() {
+        MeasureSave.shared.changeDiameterMeasure()
+        didTurnSwitch(switchUI: diameterSwitch, label: diameterLabel, textOn: "Diameter, feet", textOff: "Diameter, meters", forKey: .isDiameterChangedToFeet)
+        delegate?.didChangeMeasure()
+    }
+    
+    @objc private func didTurnMassSwitch() {
+        MeasureSave.shared.changeMassMeasure()
+        didTurnSwitch(switchUI: massSwitch, label: massLabel, textOn: "Mass, lb", textOff: "Height, kg", forKey: .isMassChangedToLB)
+        delegate?.didChangeMeasure()
+    }
+    
+    @objc private func didTurnPayloadsWeightsSwitch() {
+        MeasureSave.shared.changePayLoadMeasure()
+        didTurnSwitch(switchUI: payloadSwitch, label: payloadLabel, textOn: "Payload, lb", textOff: "Payload, kg", forKey: .isPayloadWeightsChangedToLB)
+        delegate?.didChangeMeasure()
     }
     
 }

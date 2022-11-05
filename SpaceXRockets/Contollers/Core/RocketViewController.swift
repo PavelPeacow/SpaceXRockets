@@ -135,7 +135,7 @@ class RocketViewController: UIViewController {
     
     @objc private func didTapSettingsButton() {
         let vc = RocketSettingsViewController()
-        
+        vc.delegate = self
         present(vc, animated: true)
     }
     
@@ -190,6 +190,14 @@ class RocketViewController: UIViewController {
     
 }
 
+extension RocketViewController: MeasureChangingProtocol {
+    func didChangeMeasure() {
+        rocketHorizontalCollection.reloadData()
+    }
+    
+    
+}
+
 extension RocketViewController {
     func setConstraints() {
         NSLayoutConstraint.activate([
@@ -241,19 +249,34 @@ extension RocketViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let value = rocketInfo[indexPath.item]
         let rocketViewModel: RocketHorizontalViewModel
         
-        
         if let item = value as? Height {
-            rocketViewModel = RocketHorizontalViewModel(value: String(item.meters), subtitle: "Height")
+            
+            let itemHeight = MeasureSave.shared.checkMeasure(forKey: .isHeightChangedToFeet) ? item.feet : item.meters
+            let itemMeasure = MeasureSave.shared.checkMeasure(forKey: .isHeightChangedToFeet) ? "ft" : "ms"
+            rocketViewModel = RocketHorizontalViewModel(value: String(itemHeight), subtitle: "Height \(itemMeasure)")
             cell.configure(with: rocketViewModel)
+            
         } else if let item = value as? Diameter {
-            rocketViewModel = RocketHorizontalViewModel(value: String(item.meters), subtitle: "Diameter")
+            
+            let itemDiameter = MeasureSave.shared.checkMeasure(forKey: .isDiameterChangedToFeet) ? item.feet : item.meters
+            let itemMeasure = MeasureSave.shared.checkMeasure(forKey: .isDiameterChangedToFeet) ? "ft" : "ms"
+            rocketViewModel = RocketHorizontalViewModel(value: String(itemDiameter), subtitle: "Diameter, \(itemMeasure)")
             cell.configure(with: rocketViewModel)
+            
         } else if let item = value as? Mass {
-            rocketViewModel = RocketHorizontalViewModel(value: String(item.kg), subtitle: "Mass")
+            
+            let itemMass = MeasureSave.shared.checkMeasure(forKey: .isMassChangedToLB) ? item.lb : item.kg
+            let itemMeasure = MeasureSave.shared.checkMeasure(forKey: .isMassChangedToLB) ? "lb" : "kg"
+            rocketViewModel = RocketHorizontalViewModel(value: String(itemMass), subtitle: "Mass, \(itemMeasure)")
             cell.configure(with: rocketViewModel)
+            
         } else if let item = value as? PayloadWeights {
-            rocketViewModel = RocketHorizontalViewModel(value: String(item.kg), subtitle: "Playload")
+            
+            let itemPayload = MeasureSave.shared.checkMeasure(forKey: .isPayloadWeightsChangedToLB) ? item.lb : item.kg
+            let itemMeasure = MeasureSave.shared.checkMeasure(forKey: .isPayloadWeightsChangedToLB) ? "lb" : "kg"
+            rocketViewModel = RocketHorizontalViewModel(value: String(itemPayload), subtitle: "Playload, \(itemMeasure)")
             cell.configure(with: rocketViewModel)
+            
         }
         
         return cell
